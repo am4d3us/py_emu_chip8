@@ -42,22 +42,40 @@ class Emulator:
 
         One 16-bit register, referred to as 'I', where only the 12 lowest bits
         are utilized, used to store memory addresses.
+
+
+        Timer Specification:
+        ---
+        Two timers, both of which actively count down at 60 hertz whenever the
+        respective associated register is non-zero until they reach zero:
+        - Delay: intended to be used for timing game-events. (READ/WRITE)
+        - Sound: intended to be used for sound effects. (WRITE)
+
+
+        Input Specification:
+        ---
+        Hex keyboard with 16 keys ranging from 0 to F.
+        ...
+
+
+        Graphics Specification:
+        ---
+        ...
         """
 
     def __init__(self):
-
-
         self.memory = np.zeros(4096, dtype=np.uint8)
         self.gpio = np.zeros(16, dtype=np.uint8)
+        self.index = 0 # The 'I' register.
+
+        self.timer_delay = 0
+        self.timer_sound = 0
 
         self.keyboard = np.zeros(16, dtype=np.uint8)
         self.display = np.zeros((32, 64), dtype=np.uint8)
 
-        self.index = 0
-        self.pc = 0
 
-        self.timer_delay = 0
-        self.timer_sound = 0
+
 
 
 def main():
