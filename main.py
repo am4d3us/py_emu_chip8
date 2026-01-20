@@ -6,8 +6,9 @@ class Emulator:
         An emulator for the CHIP-8 interpreted programming language.
 
         Memory Specification:
-        The CHIP-8 language is capable of accessing 4096 bytes of RAM,
-        sectioned according to the following diagram:
+        ---
+        Commonly implemented on 4K systems with 4096 8-bit memory locations,
+        i.e. RAM (Random-Access Memory), sectioned according to the diagram below:
 
         +---------------+= 0xFFF (4095) End of Chip-8 RAM
         |               |
@@ -31,14 +32,26 @@ class Emulator:
         | Reserved for  |
         |  interpreter  |
         +---------------+= 0x000 (0) Start of Chip-8 RAM
+
+
+        Register Specification:
+        ---
+        16 8-bit GPIO (General Purpose Input/Output) registers, referred to as
+        'Vx', where 'x' is a hexadecimal digit. The 'VF' is a special register,
+        however, as it doubles as a flag and shall be avoided.
+
+        One 16-bit register, referred to as 'I', where only the 12 lowest bits
+        are utilized, used to store memory addresses.
         """
 
     def __init__(self):
-        self.keyboard = np.zeros(16, dtype=np.uint8)
-        self.display = np.zeros((32, 64), dtype=np.uint8)
+
 
         self.memory = np.zeros(4096, dtype=np.uint8)
         self.gpio = np.zeros(16, dtype=np.uint8)
+
+        self.keyboard = np.zeros(16, dtype=np.uint8)
+        self.display = np.zeros((32, 64), dtype=np.uint8)
 
         self.index = 0
         self.pc = 0
